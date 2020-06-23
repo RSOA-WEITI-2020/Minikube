@@ -19,6 +19,10 @@ basically everything is done using kubectl apply -f <object name>
 
 https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
 
+# Ingress
+
+https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
+
 # Debug
 1.1 kubectl get pods 
 
