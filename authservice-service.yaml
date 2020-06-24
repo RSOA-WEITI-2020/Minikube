@@ -3,6 +3,7 @@ kind: Service
 metadata:
         name: authservice-service
 spec:
+        type: NodePort
         selector:
                 app: authservice
         ports:
