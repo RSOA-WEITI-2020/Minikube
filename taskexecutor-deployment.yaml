@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name: taskexecutor-deployment
+        labels:
+                app: taskexecutor
+spec:
+        replicas: 1
+        selector:
+                matchLabels:
+                        app: taskexecutor
+        template:
+                metadata:
+                        labels:
+                                app: taskexecutor
+                spec:
+                        containers:
+                        - name: rosaexecutor
+                          image: rpwtouk/rosaexecutor:v0.0.1
+                          ports:
+                          - containerPort: 80
