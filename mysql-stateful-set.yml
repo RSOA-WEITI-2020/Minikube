@@ -158,10 +158,10 @@ spec:
           name: mysql
   volumeClaimTemplates:
   - metadata:
-      name: mysql-pvc
+      name: data
     spec:
-      selector:
-        matchLabels:
-          app: mysql-pvc
-      storageClassName: standard
-      accessModes: [ "ReadWriteOnce" ]
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 10Gi
+
