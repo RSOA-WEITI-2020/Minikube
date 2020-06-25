@@ -2,28 +2,28 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: userdb
   labels:
-    app: mysql
+    app: userdb
 spec:
   ports:
-  - name: mysql
+  - name: userdb
     port: 3306
   clusterIP: None
   selector:
-    app: mysql
+    app: userdb
 ---
 # Client service for connecting to any MySQL instance for reads.
-# For writes, you must instead connect to the master: mysql-0.mysql.
+# For writes, you must instead connect to the master: userdb-0.userdb.
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-read
+  name: userdb-read
   labels:
-    app: mysql
+    app: userdb
 spec:
   ports:
-  - name: mysql
+  - name: userdb
     port: 3306
   selector:
-    app: mysql
+    app: userdb

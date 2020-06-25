@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql
+  name: userdb
 spec:
   selector:
     matchLabels:
-      app: mysql
-  serviceName: mysql
+      app: userdb
+  serviceName: userdb
   replicas: 3
   template:
     metadata:
       labels:
-        app: mysql
+        app: userdb
     spec:
       initContainers:
-      - name: init-mysql
+      - name: init-userdb
         image: mysql:5.7
         command:
         - bash
         - "-c"
         - |
           set -ex
-          # Generate mysql server-id from pod ordinal index.
+          # Generate userdb server-id from pod ordinal index.
           [[ `hostname` =~ -([0-9]+)$ ]] || exit 1
           ordinal=${BASH_REMATCH[1]}
           echo [mysqld] > /mnt/conf.d/server-id.cnf
@@ -38,7 +38,7 @@ spec:
           mountPath: /mnt/conf.d
         - name: config-map
           mountPath: /mnt/config-map
-      - name: clone-mysql
+      - name: clone-userdb
         image: gcr.io/google-samples/xtrabackup:1.0
         command:
         - bash
@@ -46,36 +46,36 @@ spec:
         - |
           set -ex
           # Skip the clone if data already exists.
-          [[ -d /var/lib/mysql/mysql ]] && exit 0
+          [[ -d /var/lib/userdb/mysql ]] && exit 0
           # Skip the clone on master (ordinal index 0).
           [[ `hostname` =~ -([0-9]+)$ ]] || exit 1
           ordinal=${BASH_REMATCH[1]}
           [[ $ordinal -eq 0 ]] && exit 0
           # Clone data from previous peer.
-          ncat --recv-only mysql-$(($ordinal-1)).mysql 3307 | xbstream -x -C /var/lib/mysql
+          ncat --recv-only userdb-$(($ordinal-1)).mysql 3307 | xbstream -x -C /var/lib/userdb
           # Prepare the backup.
-          xtrabackup --prepare --target-dir=/var/lib/mysql
+          xtrabackup --prepare --target-dir=/var/lib/userdb
         volumeMounts:
         - name: data
-          mountPath: /var/lib/mysql
-          subPath: mysql
+          mountPath: /var/lib/userdb
+          subPath: userdb
         - name: conf
-          mountPath: /etc/mysql/conf.d
+          mountPath: /etc/userdb/conf.d
       containers:
-      - name: mysql
+      - name: userdb
         image: mysql:5.7
         env:
         - name: MYSQL_ALLOW_EMPTY_PASSWORD
           value: "1"
         ports:
-        - name: mysql
+        - name: userdb
           containerPort: 3306
         volumeMounts:
         - name: data
-          mountPath: /var/lib/mysql
-          subPath: mysql
+          mountPath: /var/lib/userdb
+          subPath: userdb
         - name: conf
-          mountPath: /etc/mysql/conf.d
+          mountPath: /etc/userdb/conf.d
         resources:
           requests:
             cpu: 500m
@@ -103,7 +103,7 @@ spec:
         - "-c"
         - |
           set -ex
-          cd /var/lib/mysql
+          cd /var/lib/userdb
 
           # Determine binlog position of cloned data, if any.
           if [[ -f xtrabackup_slave_info && "x$(<xtrabackup_slave_info)" != "x" ]]; then
@@ -128,7 +128,7 @@ spec:
             echo "Initializing replication from clone position"
             mysql -h 127.0.0.1 \
                   -e "$(<change_master_to.sql.in), \
-                          MASTER_HOST='mysql-0.mysql', \
+                          MASTER_HOST='userdb-0.mysql', \
                           MASTER_USER='root', \
                           MASTER_PASSWORD='', \
                           MASTER_CONNECT_RETRY=10; \
@@ -142,10 +142,10 @@ spec:
             "xtrabackup --backup --slave-info --stream=xbstream --host=127.0.0.1 --user=root"
         volumeMounts:
         - name: data
-          mountPath: /var/lib/mysql
-          subPath: mysql
+          mountPath: /var/lib/userdb
+          subPath: userdb
         - name: conf
-          mountPath: /etc/mysql/conf.d
+          mountPath: /etc/userdb/conf.d
         resources:
           requests:
             cpu: 100m
@@ -155,7 +155,7 @@ spec:
         emptyDir: {}
       - name: config-map
         configMap:
-          name: mysql
+          name: userdb
   volumeClaimTemplates:
   - metadata:
       name: data

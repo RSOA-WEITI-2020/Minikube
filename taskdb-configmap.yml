@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mysql
+  name: taskdb
   labels:
-    app: mysql
+    app: taskdb
 data:
   master.cnf: |
     # Apply this config only on the master.
