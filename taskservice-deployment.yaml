@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: rosascheduler
-        image: rpwtouk/rosascheduler:v0.0.3
+        image: rpwtouk/rosascheduler:v1.0.3
         env:
         - name: BROKER_USER
           value: "guest"
