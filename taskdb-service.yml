@@ -1,0 +1,29 @@
+# Headless service for stable DNS entries of StatefulSet members.
+apiVersion: v1
+kind: Service
+metadata:
+  name: taskdb
+  labels:
+    app: taskdb
+spec:
+  ports:
+  - name: taskdb
+    port: 3306
+  clusterIP: None
+  selector:
+    app: taskdb
+---
+# Client service for connecting to any MySQL instance for reads.
+# For writes, you must instead connect to the master: taskdb-0.taskdb.
+apiVersion: v1
+kind: Service
+metadata:
+  name: taskdb-read
+  labels:
+    app: taskdb
+spec:
+  ports:
+  - name: taskdb
+    port: 3306
+  selector:
+    app: taskdb

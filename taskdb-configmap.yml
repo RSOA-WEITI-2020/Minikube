@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: taskdb
+  labels:
+    app: taskdb
+data:
+  master.cnf: |
+    # Apply this config only on the master.
+    [taskdbd]
+    log-bin
+  slave.cnf: |
+    # Apply this config only on slaves.
+    [taskdbd]
+    super-read-only
+
+
