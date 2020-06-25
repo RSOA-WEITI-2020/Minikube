@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: rosapayment
-        image: rpwtouk/rosapayment:v0.0.1
+        image: rpwtouk/rosapayu:v0.0.1
         ports:
         - containerPort: 80
