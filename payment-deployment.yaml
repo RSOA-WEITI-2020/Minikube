@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: taskservice-deployment
+  name: payment-deployment
   labels:
-    app: taskservice
+    app: payment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: taskservice
+      app: payment
   template:
     metadata:
       labels:
-        app: taskservice
+        app: payment
     spec:
       containers:
-      - name: rosascheduler
-        image: rpwtouk/rosascheduler:v0.0.3
+      - name: rosapayment
+        image: rpwtouk/rosapayment:v0.0.1
         ports:
         - containerPort: 80

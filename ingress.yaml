@@ -10,13 +10,17 @@ spec:
   rules:
   - http:
       paths:
-      - path: /hello/
+      - path: /payment/(.*)
         backend:
-          serviceName: frontend-service
+          serviceName: payment-service
           servicePort: 80
       - path: /auth/(.*)
         backend:
           serviceName: authservice-service
+          servicePort: 80
+      - path: /task/(.*)
+        backend:
+          serviceName: taskservice-service
           servicePort: 80
       - path: /(.*)
         backend:
