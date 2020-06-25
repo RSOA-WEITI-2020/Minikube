@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-deployment
+  name: taskservice-deployment
   labels:
-    app: frontend
+    app: taskservice
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      app: taskservice
   template:
     metadata:
       labels:
-        app: frontend
+        app: taskservice
     spec:
       containers:
-      - name: rosafront
-        image: rpwtouk/rosafront:v0.0.2
+      - name: rosascheduler
+        image: rpwtouk/rosascheduler:v0.0.2
         ports:
         - containerPort: 80
