@@ -14,4 +14,8 @@ spec:
         backend:
           serviceName: authservice-service
           servicePort: 80
+      - path: /
+        backend:
+          serviceName: frontend-service
+          servicePort: 80
 
