@@ -16,7 +16,6 @@ spec:
     spec:
       containers:
       - name: rosaauth
-        # image: k8s.gcr.io/echoserver:1.4
-        image: rpwtouk/rosaauth:v0.0.11
+        image: rpwtouk/rosaauth:v0.0.12
         ports:
         - containerPort: 80
