@@ -16,6 +16,7 @@ spec:
     spec:
       containers:
       - name: rosafront
-        image: rpwtouk/rosafront:v0.0.2
+        # image: k8s.gcr.io/echoserver:1.4
+        image: rpwtouk/rosafront:v0.0.6
         ports:
         - containerPort: 80

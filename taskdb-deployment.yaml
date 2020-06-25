@@ -1,0 +1,32 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: taskdb
+spec:
+  selector:
+    matchLabels:
+      app: taskdb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: taskdb
+    spec:
+      containers:
+      - image: rpwtouk/rosataskdb:v0.0.1
+        name: taskdb
+        env:
+          # Use secret in real usage
+        - name: MYSQL_ROOT_PASSWORD
+          value: password
+        ports:
+        - containerPort: 3306
+          name: taskdb
+        volumeMounts:
+        - name: taskdb-persistent-storage
+          mountPath: /var/lib/taskdb
+      volumes:
+      - name: taskdb-persistent-storage
+        persistentVolumeClaim:
+          claimName: taskdb-pv-claim

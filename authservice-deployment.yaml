@@ -1,21 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-        name: authservice-deployment
-        labels:
-                app: authservice
+  name: authservice-deployment
+  labels:
+    app: authservice
 spec:
-        replicas: 1
-        selector:
-                matchLabels:
-                        app: authservice
-        template:
-                metadata:
-                        labels:
-                                app: authservice
-                spec:
-                        containers:
-                        - name: rosaauth
-                          image: rpwtouk/rosaauth:v0.0.7
-                          ports:
-                          - containerPort: 80
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authservice
+  template:
+    metadata:
+      labels:
+        app: authservice
+    spec:
+      containers:
+      - name: rosaauth
+        # image: k8s.gcr.io/echoserver:1.4
+        image: rpwtouk/rosaauth:v0.0.11
+        ports:
+        - containerPort: 80

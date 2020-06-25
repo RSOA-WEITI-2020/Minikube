@@ -1,0 +1,32 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: userdb
+spec:
+  selector:
+    matchLabels:
+      app: userdb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: userdb
+    spec:
+      containers:
+      - image: rpwtouk/rosadb:v0.0.1
+        name: userdb
+        env:
+          # Use secret in real usage
+        - name: MYSQL_ROOT_PASSWORD
+          value: password
+        ports:
+        - containerPort: 3306
+          name: userdb
+        volumeMounts:
+        - name: userdb-persistent-storage
+          mountPath: /var/lib/userdb
+      volumes:
+      - name: userdb-persistent-storage
+        persistentVolumeClaim:
+          claimName: userdb-pv-claim
