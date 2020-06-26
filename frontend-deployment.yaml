@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: rosafront
-        image: rpwtouk/rosafront:v1.0.1
+        image: rpwtouk/rosafront:v1.0.2
         ports:
         - containerPort: 80

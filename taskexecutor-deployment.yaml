@@ -16,13 +16,13 @@ spec:
                 spec:
                         containers:
                         - name: rosaexecutor
-                          image: rpwtouk/rosaexecutor:v0.0.3
+                          image: rpwtouk/rosaexecutor:v0.0.5
                           env:
                           - name: BROKER_USER
                             value: "guest"
                           - name: BROKER_PASSWORD
                             value: "guest"
                           - name: BROKER_ADDRESS
-                            value: "rabbitmq"
+                            value: "rabbitmq-service"
                           ports:
                           - containerPort: 80

@@ -16,13 +16,13 @@ spec:
     spec:
       containers:
       - name: rosascheduler
-        image: rpwtouk/rosascheduler:v1.0.3
+        image: rpwtouk/rosascheduler:v1.0.4
         env:
         - name: BROKER_USER
           value: "guest"
         - name: BROKER_PASSWORD
           value: "guest"
         - name: BROKER_ADDRESS
-          value: "rabbitmq"
+          value: "rabbitmq-service"
         ports:
         - containerPort: 80

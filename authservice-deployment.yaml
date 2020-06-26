@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: rosaauth
-        image: rpwtouk/rosaauth:v1.0.0
+        image: rpwtouk/rosaauth:v1.0.1
         ports:
         - containerPort: 80
