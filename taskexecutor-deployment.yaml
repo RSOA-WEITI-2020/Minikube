@@ -16,7 +16,7 @@ spec:
                 spec:
                         containers:
                         - name: rosaexecutor
-                          image: rpwtouk/rosaexecutor:v0.0.5
+                          image: rpwtouk/rosaexecutor:v0.0.6
                           env:
                           - name: BROKER_USER
                             value: "guest"
